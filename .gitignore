@@ -1,0 +1,5 @@
+*.gem
+ext/ordered_json_c.o
+ext/conftest.dSYM
+ext/mkmf.log
+ext/ordered_json_c.bundle

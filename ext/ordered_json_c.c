@@ -6,32 +6,31 @@ struct json_object* ob_dump_json(VALUE obj);
 struct json_object* ob_dump_json_hash(VALUE obj);
 struct json_object* ob_dump_json_array(VALUE obj);
 
-VALUE oj_parse(VALUE, VALUE);
-VALUE oj_build(struct json_object *);
-VALUE oj_build_object(struct json_object *);
-VALUE oj_build_array(struct json_object *);
+VALUE oj_parse(VALUE, VALUE, VALUE);
+VALUE oj_build(struct json_object *, VALUE);
+VALUE oj_build_object(struct json_object *, VALUE);
+VALUE oj_build_array(struct json_object *, VALUE);
 
 void Init_ordered_json_c()
 {
 	VALUE c_oj = rb_define_class("OrderedJSONC", rb_cObject);
-	rb_define_singleton_method(c_oj, "parse", oj_parse, 1);
+	rb_define_singleton_method(c_oj, "parse", oj_parse, 2);
 	rb_define_singleton_method(c_oj, "dump", oj_dump, 1);
 }
 
-VALUE oj_parse(VALUE self, VALUE str){
+VALUE oj_parse(VALUE self, VALUE str, VALUE hash_class){
   char *c_str = STR2CSTR(str);
   struct json_object* json = json_tokener_parse(c_str);
-  VALUE out = oj_build(json);
+  VALUE out = oj_build(json, hash_class);
   json_object_put(json);
   return out;
 }
 
-VALUE ob_dump(VALUE self, VALUE obj){
+VALUE oj_dump(VALUE self, VALUE obj){
   struct json_object* json = ob_dump_json(obj);
   char *cstr = json_object_to_json_string(json);
   VALUE out = rb_str_new2(cstr);
   json_object_put(json);
-  free(cstr);
   return out;
 }
 
@@ -55,7 +54,7 @@ struct json_object* ob_dump_json(VALUE obj) {
       return json_object_new_boolean(0);
     case T_NIL:
     default:
-      return null;
+      return NULL;
   }
 }
 
@@ -65,8 +64,8 @@ struct json_object* ob_dump_json_hash(VALUE hash) {
   VALUE values = rb_funcall(hash, rb_intern("values"), 0); 
   int len = RARRAY(keys)->len;
   for(int i = 0; i < len; i++) {
-    json_object_object_add(json,          
-        StringValueCStr(rb_ary_entry(keys, i)),
+    json_object_object_add(json,
+		STR2CSTR(rb_funcall(rb_ary_entry(keys, i), rb_intern("to_s"), 0)),
         ob_dump_json(rb_ary_entry(values, i))
       );
   }
@@ -82,7 +81,7 @@ struct json_object* ob_dump_json_array(VALUE array) {
   return json;
 }
 
-VALUE oj_build(struct json_object* json){
+VALUE oj_build(struct json_object* json, VALUE hash_class){
   switch(json_object_get_type(json)){
     case json_type_null:
       return Qnil;
@@ -93,27 +92,27 @@ VALUE oj_build(struct json_object* json){
     case json_type_int:
       return INT2FIX(json_object_get_int(json));
     case json_type_object:
-      return oj_build_object(json);
+      return oj_build_object(json, hash_class);
     case json_type_array:
-      return oj_build_array(json);
+      return oj_build_array(json, hash_class);
     case json_type_string:
       return rb_str_new2(json_object_get_string(json));
   }
   return Qnil;
 }
 
-VALUE oj_build_object(struct json_object * json) {
-  VALUE hash = rb_hash_new();
+VALUE oj_build_object(struct json_object * json, VALUE hash_class) {
+  VALUE hash = rb_funcall(hash_class, rb_intern("new"), 0);
   json_object_object_foreach(json, key, value) {
-    rb_hash_aset(hash, rb_str_new2(key), oj_build(value));
+    rb_funcall(hash, rb_intern("[]="), 2, rb_str_new2(key), oj_build(value, hash_class));
   }
   return hash;
 }
 
-VALUE oj_build_array(struct json_object * json) {
+VALUE oj_build_array(struct json_object * json, VALUE hash_class) {
   VALUE array = rb_ary_new();
   for(int i = 0; i < json_object_array_length(json); i++) {
-    rb_ary_push(array, ob_build(json_object_array_get_idx(json, i)));
+    rb_ary_push(array, ob_build(json_object_array_get_idx(json, i), hash_class));
   }
   return array;
 }

@@ -5,7 +5,15 @@ Gem::Specification.new do |s|
   s.summary  = "Ordered json hash conversion "
   s.email    = "kyle@kylemaxwell.com"
   s.has_rdoc = true
+  s.extensions = "ext/extconf.rb"
   s.authors  = ["Kyle Maxwell"]
-  s.files    = Dir["**/*"] - Dir["test/**/*"] - Dir["*.gem"] - Dir["*.log"]
+  s.files    = %w[
+    ./ext/extconf.rb
+    ./ext/ordered_json_c.c
+    ./lib/ordered_json.rb
+    ./ordered_json.gemspec
+    ./README
+    ./test/ordered_json_test.rb
+  ]
   s.add_dependency("collections", ["> 0.0.0"])
 end
