@@ -5,4 +5,4 @@ Features:
 
 Depends on:
 - http://oss.metaparadigm.com/json-c (I used 0.8)
-- collections.rubyforge.org/
+- http://collections.rubyforge.org/
