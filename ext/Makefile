@@ -41,7 +41,7 @@ LIBRUBYARG_SHARED = -l$(RUBY_SO_NAME)
 LIBRUBYARG_STATIC = -l$(RUBY_SO_NAME)
 
 RUBY_EXTCONF_H = 
-CFLAGS   =  -fno-common -arch i386 -Os -pipe -fno-common  -g -DXP_UNIX -O3 -Wall -Wextra -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline 
+CFLAGS   =  -fno-common -arch i386 -Os -pipe -fno-common -std=c99  -g -DXP_UNIX -O3 -Wall -Wextra -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline 
 INCFLAGS = -I. -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin9.0 -I.
 CPPFLAGS =  
 CXXFLAGS = $(CFLAGS) 

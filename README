@@ -1,6 +1,7 @@
 Features: 
 - Ruby 1.8 OrderedHash implementation 
 - OrderedJSON.parse(string) -> OrderedHash, etc. (fast, C implementation)
+- OrderedJSON.dump(OrderedHash.new) -> preserves ordering
 
 Depends on:
 - http://oss.metaparadigm.com/json-c (I used 0.8)

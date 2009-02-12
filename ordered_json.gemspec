@@ -7,4 +7,5 @@ Gem::Specification.new do |s|
   s.has_rdoc = true
   s.authors  = ["Kyle Maxwell"]
   s.files    = Dir["**/*"] - Dir["test/**/*"] - Dir["*.gem"] - Dir["*.log"]
+  s.add_dependency("collections", ["> 0.0.0"])
 end

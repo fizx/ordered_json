@@ -7,7 +7,7 @@ ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 LIBDIR = Config::CONFIG['libdir']
 INCLUDEDIR = Config::CONFIG['includedir']
 
-$CFLAGS << " #{ENV["CFLAGS"]}"
+$CFLAGS << " -std=c99 #{ENV["CFLAGS"]}"
 if Config::CONFIG['target_os'] == 'mingw32'
   $CFLAGS << " -DXP_WIN -DXP_WIN32"
 else
