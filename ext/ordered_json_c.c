@@ -3,9 +3,9 @@
 #include <stdio.h>
 
 VALUE oj_dump(VALUE, VALUE);
-struct json_object* ob_dump_json(VALUE obj);
-struct json_object* ob_dump_json_hash(VALUE obj);
-struct json_object* ob_dump_json_array(VALUE obj);
+struct json_object* oj_dump_json(VALUE obj);
+struct json_object* oj_dump_json_hash(VALUE obj);
+struct json_object* oj_dump_json_array(VALUE obj);
 
 VALUE oj_parse(VALUE, VALUE, VALUE);
 VALUE oj_build(struct json_object *, VALUE);
@@ -29,24 +29,24 @@ VALUE oj_parse(VALUE self, VALUE str, VALUE hash_class){
 
 VALUE oj_dump(VALUE self, VALUE obj){
   
-  struct json_object* json = ob_dump_json(obj);
+  struct json_object* json = oj_dump_json(obj);
   char *cstr = json_object_to_json_string(json);
   VALUE out = rb_str_new2(cstr);
   json_object_put(json);
   return out;
 }
 
-struct json_object* ob_dump_json(VALUE obj) {
+struct json_object* oj_dump_json(VALUE obj) {
   switch(TYPE(obj)) {
     case T_OBJECT:
     case T_HASH:
-      return ob_dump_json_hash(obj);
+      return oj_dump_json_hash(obj);
     case T_FLOAT:  
       return json_object_new_double(NUM2DBL(obj));
     case T_STRING: 
       return json_object_new_string(STR2CSTR(obj));
     case T_ARRAY: 
-      return ob_dump_json_array(obj);
+      return oj_dump_json_array(obj);
     case T_FIXNUM:
     case T_BIGNUM:          
       return json_object_new_int(NUM2INT(obj));
@@ -60,7 +60,7 @@ struct json_object* ob_dump_json(VALUE obj) {
   }
 }
 
-struct json_object* ob_dump_json_hash(VALUE hash) {
+struct json_object* oj_dump_json_hash(VALUE hash) {
   struct json_object *json = json_object_new_object();
   VALUE keys = rb_funcall(hash, rb_intern("keys"), 0);
   VALUE values = rb_funcall(hash, rb_intern("values"), 0); 
@@ -68,17 +68,17 @@ struct json_object* ob_dump_json_hash(VALUE hash) {
   for(int i = 0; i < len; i++) {
     json_object_object_add(json,
 		STR2CSTR(rb_funcall(rb_ary_entry(keys, i), rb_intern("to_s"), 0)),
-        ob_dump_json(rb_ary_entry(values, i))
+        oj_dump_json(rb_ary_entry(values, i))
       );
   }
   return json;
 }
 
-struct json_object* ob_dump_json_array(VALUE array) {
+struct json_object* oj_dump_json_array(VALUE array) {
   int len = RARRAY(array)->len;
   struct json_object *json = json_object_new_array();;
   for(int i = 0; i < len; i++) {
-    json_object_array_add(json, ob_dump_json(rb_ary_entry(array, i)));
+    json_object_array_add(json, oj_dump_json(rb_ary_entry(array, i)));
   }
   return json;
 }
@@ -116,7 +116,7 @@ VALUE oj_build_object(struct json_object * json, VALUE hash_class) {
 VALUE oj_build_array(struct json_object * json, VALUE hash_class) {
   VALUE array = rb_ary_new();
   for(int i = 0; i < json_object_array_length(json); i++) {
-    rb_ary_push(array, ob_build(json_object_array_get_idx(json, i), hash_class));
+    rb_ary_push(array, oj_build(json_object_array_get_idx(json, i), hash_class));
   }
   return array;
 }

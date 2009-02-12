@@ -6,3 +6,5 @@ Feb 12 2009
 	  -- Rake tasks
 	  -- more test coverage
 	  -- NPE fix in oj_parse
+	- 0.1.2
+	  -- fixed function name typo
