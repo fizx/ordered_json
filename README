@@ -1,0 +1,6 @@
+Features: 
+- Ruby 1.8 OrderedHash implementation 
+- OrderedJSON.parse(string) -> OrderedHash, etc. (fast, C implementation)
+
+Depends on:
+- http://oss.metaparadigm.com/json-c (I used 0.8)

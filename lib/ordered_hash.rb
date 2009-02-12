@@ -1,0 +1,2 @@
+class OrderedHash < Hash
+end
