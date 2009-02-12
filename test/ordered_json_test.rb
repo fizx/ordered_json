@@ -12,6 +12,19 @@ class OrderedJSONTest < Test::Unit::TestCase
     assert_equal "{ }", OrderedJSON.dump({})
   end
   
+  def test_some_cases
+    obj = {"foo"=>{"bar"=>nil}}
+    OrderedJSON.dump(obj)
+    
+    obj = OrderedHash.new
+    obj["foo"] = {"bar"=>nil}
+    OrderedJSON.dump(obj)
+    
+    obj = OrderedHash.new
+    obj["foo"] = OrderedHash.new
+    OrderedJSON.dump(obj)
+  end
+  
   # The idea is to take random numericish keys with ordered 
   # alphabetic values, and assert that when we inspect various 
   # parts of the process, despite the random keys, the values are still

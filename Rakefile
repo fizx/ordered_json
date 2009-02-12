@@ -1,19 +1,13 @@
 task :default => :test
 
-task :test do
+task :test => :build do
   require "test/ordered_json_test"
 end
 
 task :build_clean => [:clean, :build]
 
 task :build do
-  if system("cd ext && make")
-    puts "-" * 78
-    puts "success"
-    puts
-    exit 0
-  end
-  exit 1
+  system("cd ext && make")
 end
 
 task :build_gem => :clean do

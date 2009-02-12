@@ -1,2 +1,8 @@
 Feb 11 2009
-	- 0.1.0 -- initial release
+	- 0.1.0 
+	  -- initial release
+Feb 12 2009
+	- 0.1.1 
+	  -- Rake tasks
+	  -- more test coverage
+	  -- NPE fix in oj_parse

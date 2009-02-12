@@ -1,5 +1,6 @@
 #include "ruby.h"
 #include <json/json.h>
+#include <stdio.h>
 
 VALUE oj_dump(VALUE, VALUE);
 struct json_object* ob_dump_json(VALUE obj);
@@ -27,6 +28,7 @@ VALUE oj_parse(VALUE self, VALUE str, VALUE hash_class){
 }
 
 VALUE oj_dump(VALUE self, VALUE obj){
+  
   struct json_object* json = ob_dump_json(obj);
   char *cstr = json_object_to_json_string(json);
   VALUE out = rb_str_new2(cstr);
@@ -82,21 +84,23 @@ struct json_object* ob_dump_json_array(VALUE array) {
 }
 
 VALUE oj_build(struct json_object* json, VALUE hash_class){
-  switch(json_object_get_type(json)){
-    case json_type_null:
-      return Qnil;
-    case json_type_boolean:
-      return json_object_get_boolean(json) ? Qtrue : Qfalse;
-    case json_type_double:	
-      return rb_float_new(json_object_get_double(json));
-    case json_type_int:
-      return INT2FIX(json_object_get_int(json));
-    case json_type_object:
-      return oj_build_object(json, hash_class);
-    case json_type_array:
-      return oj_build_array(json, hash_class);
-    case json_type_string:
-      return rb_str_new2(json_object_get_string(json));
+  if(json != NULL) {
+    switch(json_object_get_type(json)){
+      case json_type_null:
+        return Qnil;
+      case json_type_boolean:
+        return json_object_get_boolean(json) ? Qtrue : Qfalse;
+      case json_type_double:	
+        return rb_float_new(json_object_get_double(json));
+      case json_type_int:
+        return INT2FIX(json_object_get_int(json));
+      case json_type_object:
+        return oj_build_object(json, hash_class);
+      case json_type_array:
+        return oj_build_array(json, hash_class);
+      case json_type_string:
+        return rb_str_new2(json_object_get_string(json));
+    }
   }
   return Qnil;
 }

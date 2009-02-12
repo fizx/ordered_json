@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name     = "ordered_json"
-  s.version  = "0.1.0"
+  s.version  = "0.1.1"
   s.date     = "2009-02-11"
   s.summary  = "Ordered json hash conversion "
   s.email    = "kyle@kylemaxwell.com"
@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
     ./lib/ordered_json.rb
     ./ordered_json.gemspec
     ./README
+    ./Rakefile
     ./test/ordered_json_test.rb
   ]
   s.add_dependency("collections", ["> 0.0.0"])
