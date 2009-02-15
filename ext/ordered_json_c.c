@@ -12,17 +12,27 @@ VALUE oj_build(struct json_object *, VALUE);
 VALUE oj_build_object(struct json_object *, VALUE);
 VALUE oj_build_array(struct json_object *, VALUE);
 
+VALUE rb_dump_error;
+VALUE rb_parse_error;
+
 void Init_ordered_json_c()
 {
+	rb_dump_error = rb_eval_string("OrderedJSON::DumpError");
+	rb_parse_error = rb_eval_string("OrderedJSON::ParseError");
 	VALUE c_oj = rb_define_class("OrderedJSONC", rb_cObject);
 	rb_define_singleton_method(c_oj, "parse", oj_parse, 2);
 	rb_define_singleton_method(c_oj, "dump", oj_dump, 1);
 }
 
 VALUE oj_parse(VALUE self, VALUE str, VALUE hash_class){
+	VALUE out;
   char *c_str = STR2CSTR(str);
   struct json_object* json = json_tokener_parse(c_str);
-  VALUE out = oj_build(json, hash_class);
+	if(is_error(json)) {
+		rb_raise(rb_parse_error, "Invalid JSON");
+	} else {
+  out = oj_build(json, hash_class);
+	}
   json_object_put(json);
   return out;
 }

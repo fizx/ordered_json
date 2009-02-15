@@ -12,6 +12,12 @@ class OrderedJSONTest < Test::Unit::TestCase
     assert_equal "{ }", OrderedJSON.dump({})
   end
   
+  def test_invalid_json
+    assert_raises(OrderedJSON::ParseError) do
+      OrderedJSON.parse("not json")
+    end
+  end
+  
   def test_some_cases
     obj = {"foo"=>{"bar"=>nil}}
     OrderedJSON.dump(obj)

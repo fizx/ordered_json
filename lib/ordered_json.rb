@@ -1,10 +1,13 @@
 require "rubygems"
 require 'collections/sequenced_hash'
-require File.dirname(__FILE__) + "/../ext/ordered_json_c"
 
 class OrderedHash < SequencedHash; end
 
 module OrderedJSON
+  class ParseError < RuntimeError; end
+  class DumpError < RuntimeError; end
+  
+  
   def parse(str)
     ::OrderedJSONC.parse(str, OrderedHash)
   end
@@ -15,3 +18,5 @@ module OrderedJSON
   
   extend self
 end
+
+require File.dirname(__FILE__) + "/../ext/ordered_json_c"
