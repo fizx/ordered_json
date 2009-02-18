@@ -17,6 +17,16 @@ class OrderedJSONTest < Test::Unit::TestCase
       OrderedJSON.parse("not json")
     end
   end
+    
+  def test_pretty_dump
+    
+    assert_equal File.read(File.dirname(__FILE__) + "/pretty.json"), 
+      OrderedJSON.pretty_dump({"foo" => "bar", 
+        "bar" => [{"dsfa" => {"asdf" => ["dsaf", nil]}}]
+      })
+          
+    assert_equal %[{\n\t"foo": "bar"\n}], OrderedJSON.pretty_dump({"foo" => "bar"})
+  end
   
   def test_some_cases
     obj = {"foo"=>{"bar"=>nil}}

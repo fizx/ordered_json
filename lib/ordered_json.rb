@@ -12,8 +12,12 @@ module OrderedJSON
     ::OrderedJSONC.parse(str, OrderedHash)
   end
   
-  def dump(obj)
-    ::OrderedJSONC.dump(obj)
+  def dump(obj, pretty = false)
+    ::OrderedJSONC.dump(obj, pretty)
+  end
+  
+  def pretty_dump(obj)
+    dump(obj, true)
   end
   
   extend self
