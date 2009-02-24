@@ -13,4 +13,7 @@ Feb 15 2009
 	  -- exceptions for parse error
 Feb 17 2009
 	- 0.2.0
-      -- pretty dump
+    -- pretty dump
+Feb 14 2009
+	- 0.3.0
+    -- bundled the json-c library
