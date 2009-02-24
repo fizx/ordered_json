@@ -49,7 +49,6 @@ Gem::Specification.new do |s|
     ./ext/json-c-0.8/test1.c
     ./ext/json-c-0.8/test2.c
     ./ext/json-c-0.8/test3.c
-    ./ext/mkmf.log
     ./ext/ordered_json_c.c
     ./lib/ordered_json.rb
     ./ordered_json.gemspec
