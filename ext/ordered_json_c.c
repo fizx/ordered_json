@@ -1,6 +1,6 @@
 #include "ruby.h"
-#include <json/json.h>
-#include <json/printbuf.h>
+#include "json-c-0.8/json.h"
+#include "json-c-0.8/printbuf.h"
 #include <stdio.h>
 #include <stdbool.h>
 

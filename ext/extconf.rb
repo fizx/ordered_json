@@ -3,6 +3,9 @@ ENV["ARCHFLAGS"] = "-arch #{`uname -p` =~ /powerpc/ ? 'ppc' : 'i386'}"
 
 require 'mkmf'
 
+json = File.dirname(__FILE__) + "/json-c-0.8"
+system "cd #{json} && ./configure && make" 
+
 ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 LIBDIR = Config::CONFIG['libdir']
 INCLUDEDIR = Config::CONFIG['includedir']
@@ -15,11 +18,5 @@ else
 end
 
 $CFLAGS << " -O3 -Wall -Wextra -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline"
-
-myincl = %w[/usr/local/include /opt/local/include /usr/include]
-mylib = %w[/usr/local/lib /opt/local/lib /usr/lib]
-
-find_header('json/json.h', INCLUDEDIR, *myincl) or abort "need json/json.h"
-find_library('json', 'json_object_new_string', LIBDIR, *mylib) or abort "need libjson"
 
 create_makefile('ordered_json_c')
