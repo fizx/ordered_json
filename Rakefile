@@ -6,8 +6,12 @@ end
 
 task :build_clean => [:clean, :build]
 
-task :build do
+task :build => "ext/Makefile" do
   system("cd ext && make")
+end
+
+file "ext/Makefile" do
+  system("cd ext && ruby extconf.rb")
 end
 
 task :build_gem => :clean do
