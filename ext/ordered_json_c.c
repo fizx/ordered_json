@@ -73,7 +73,7 @@ char* oj_pretty_dump(struct json_object* json, struct printbuf *buf, int depth) 
 			oj_pretty_dump_array(json, buf, depth);
 			break;
 	  default:
-			sprintbuf(buf, json_object_to_json_string(json));
+			sprintbuf(buf, "%s", json_object_to_json_string(json));
 		}
 	} else {
 		sprintbuf(buf, "null");
