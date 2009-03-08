@@ -17,3 +17,6 @@ Feb 17 2009
 Feb 14 2009
 	- 0.3.0
     -- bundled the json-c library
+March 7 2009
+	- 0.3.1
+		-- fixed sprintbuf invocation bug

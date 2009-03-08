@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name     = "ordered_json"
-  s.version  = "0.3.0"
-  s.date     = "2009-02-24"
+  s.version  = "0.3.1"
+  s.date     = "2009-03-07"
   s.summary  = "Ordered json hash conversion "
   s.email    = "kyle@kylemaxwell.com"
   s.has_rdoc = true
