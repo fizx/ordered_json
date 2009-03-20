@@ -12,6 +12,19 @@ class OrderedJSONTest < Test::Unit::TestCase
     assert_equal "{ }", OrderedJSON.dump({})
   end
   
+  def test_crash_example
+    @ruby = eval(File.read(File.dirname(__FILE__) + "/crashing_example.rb"))
+    json = OrderedJSON.dump(@ruby)
+    @back = OrderedJSON.parse(json)
+    assert_equal(@ruby, @back)
+    
+    puts @back.inspect
+    
+    json = OrderedJSON.pretty_dump(@ruby)
+    @back = OrderedJSON.parse(json)
+    assert_equal(@ruby, @back)
+  end
+  
   def test_invalid_json
     assert_raises(OrderedJSON::ParseError) do
       OrderedJSON.parse("not json")
