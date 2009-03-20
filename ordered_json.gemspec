@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name     = "ordered_json"
-  s.version  = "0.3.2"
+  s.version  = "0.3.4"
   s.date     = "2009-03-19"
   s.summary  = "Ordered json hash conversion "
   s.email    = "kyle@kylemaxwell.com"
@@ -88,7 +88,6 @@ Gem::Specification.new do |s|
     ext/json-c-0.8/test1.c
     ext/json-c-0.8/test2.c
     ext/json-c-0.8/test3.c
-    ext/Makefile
     ext/ordered_json_c.c
     lib/ordered_json.rb
     ordered_json.gemspec
