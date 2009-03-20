@@ -18,7 +18,7 @@ class OrderedJSONTest < Test::Unit::TestCase
     @back = OrderedJSON.parse(json)
     assert_equal(@ruby, @back)
     
-    puts @back.inspect
+    # puts @back.inspect
     
     json = OrderedJSON.pretty_dump(@ruby)
     @back = OrderedJSON.parse(json)
