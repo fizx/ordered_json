@@ -12,6 +12,10 @@ class OrderedJSONTest < Test::Unit::TestCase
     assert_equal "{ }", OrderedJSON.dump({})
   end
   
+  def test_crash_parse
+    OrderedJSON.parse(File.read(File.dirname(__FILE__) + "/crash.json"))
+  end
+  
   def test_crash_example
     @ruby = eval(File.read(File.dirname(__FILE__) + "/crashing_example.rb"))
     json = OrderedJSON.dump(@ruby)
@@ -62,7 +66,7 @@ class OrderedJSONTest < Test::Unit::TestCase
     original = create_random_hash
     dump     = OrderedJSON.dump(original)
     parsed   = OrderedJSON.parse(dump)
-
+  
     assert_kind_of OrderedHash, parsed
     assert_alphabet dump
     assert_alphabet parsed.inspect

@@ -2,6 +2,7 @@
 ext/ordered_json_c.o
 ext/conftest.dSYM
 ext/mkmf.log
+ext/Makefile
 ext/ordered_json_c.bundle
 ext/json-c-0.8/.deps/
 ext/json-c-0.8/.libs/

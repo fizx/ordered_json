@@ -31,9 +31,13 @@ void Init_ordered_json_c()
 VALUE oj_parse(VALUE self, VALUE str, VALUE hash_class){
 	VALUE out;
   char *c_str = STR2CSTR(str);
+  // printf("json: %s\n", c_str);
   struct json_object* json = json_tokener_parse(c_str);
 	if(is_error(json)) {
-		rb_raise(rb_parse_error, "Invalid JSON");
+    char * tmp;
+    asprintf(&tmp, "Invalid JSON: %d", json);
+		rb_raise(rb_parse_error, tmp);
+    free(tmp);
 	} else {
   out = oj_build(json, hash_class);
 	}
