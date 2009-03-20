@@ -1,0 +1,1 @@
+{ "title": ".title a", "link": ".title a @href", "comment(.default)": [ { "commenter": ".comhead a:nth-child(2)", "permalink": ".comhead a:nth-child(3) @href", "points": "number(regex:match(.comhead span, '[0-9]+'))", "comment": ".\/\/font", "parent?": "preceding::*[@class='comhead']\/\/a[2]\/@href" } ] }
