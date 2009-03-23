@@ -67,25 +67,8 @@ char* tabs(int num) {
 	return tabs;
 }
 
-char* oj_pretty_dump(struct json_object* json, struct printbuf *buf, int depth) {
-	if(json != NULL) {
-	  switch(json_object_get_type(json)){	
-	  case json_type_object:
-			oj_pretty_dump_object(json, buf, depth);
-			break;
-	  case json_type_array:
-			oj_pretty_dump_array(json, buf, depth);
-			break;
-	  default:
-			sprintbuf(buf, "%s", json_object_to_json_string(json));
-		}
-	} else {
-		sprintbuf(buf, "null");
-	}
-	return buf->buf;
-}
-
-void oj_pretty_dump_object(struct json_object* json, struct printbuf *buf, int depth) {
+static void 
+oj_pretty_dump_object(struct json_object* json, struct printbuf *buf, int depth) {
 	struct json_object *jtmp;
 	char *space  = tabs(depth);
 	char *space1 = tabs(depth + 1);
@@ -103,7 +86,8 @@ void oj_pretty_dump_object(struct json_object* json, struct printbuf *buf, int d
 	free(space1);
 }
 
-void oj_pretty_dump_array(struct json_object* json, struct printbuf *buf, int depth) {
+static void 
+oj_pretty_dump_array(struct json_object* json, struct printbuf *buf, int depth) {
 	int len = json_object_array_length(json);
 	char *space =  (len < 2) ? strdup("") : tabs(depth);
 	char *space1 = (len < 2) ? strdup("") : tabs(depth + 1);
@@ -115,6 +99,24 @@ void oj_pretty_dump_array(struct json_object* json, struct printbuf *buf, int de
 	}
 	sprintbuf(buf, " %s]", space);
 	free(space);
+}
+
+char* oj_pretty_dump(struct json_object* json, struct printbuf *buf, int depth) {
+	if(json != NULL) {
+	  switch(json_object_get_type(json)){	
+	  case json_type_object:
+			oj_pretty_dump_object(json, buf, depth);
+			break;
+	  case json_type_array:
+			oj_pretty_dump_array(json, buf, depth);
+			break;
+	  default:
+			sprintbuf(buf, "%s", json_object_to_json_string(json));
+		}
+	} else {
+		sprintbuf(buf, "null");
+	}
+	return buf->buf;
 }
 
 struct json_object* oj_dump_json(VALUE obj) {
